@@ -54,7 +54,20 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - print_pipeline_id
-
+  test_fail: 
+    docker:
+      - image: circleci/node:13.8.0 
+    steps: 
+      - run: 
+          name: Step 1
+          command: return 1
+      - run: 
+          name: Step 2
+          command: echo "Dont know if this will run"
+      - run: 
+          name: Step 3
+          command: echo "This should run"
+          when: on_fail
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -70,3 +83,4 @@ workflows:
           requires:
             - save_to_workspace
       - test_command
+      - test_fail
