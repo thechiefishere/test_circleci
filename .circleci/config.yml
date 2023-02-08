@@ -23,6 +23,11 @@ jobs:
           pwd
           ls
           echo "Wow"
+  print_secret_name:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - run: echo "My name is << Name >>"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -33,3 +38,4 @@ workflows:
       - print_world: 
           requires:
             - print_hello
+      - print_secret_name
