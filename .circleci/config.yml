@@ -72,3 +72,4 @@ workflows:
       - retrieve_from_workspace:
           requires:
             - save_to_workspace
+      - test_command
