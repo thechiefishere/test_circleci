@@ -28,6 +28,22 @@ jobs:
       - image: cimg/base:2020.01
     steps:
       - run: echo "My name is $Name"
+  save_to_workspace:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run: echo "I love you" >> ~/output.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - output.txt
+  retrieve_from_workspace:
+    docker: 
+      - image: circleci/node:13.8.0
+    steps: 
+      - attach_workspace:
+          at: ~/
+      - run: cat ouput.txt
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -39,3 +55,7 @@ workflows:
           requires:
             - print_hello
       - print_secret_name
+      - save_to_workspace
+      - retrieve_from_workspace:
+          requires:
+            - save_to_workspace
